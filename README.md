@@ -1,5 +1,9 @@
 # Church Control
 
+### Desarrollo y Metodología
+
+Este proyecto fue diseñado, estructurado y desplegado para resolver una necesidad operativa real. La implementación del código se realizó mediante **desarrollo asistido por IA** (Claude Code), enfocando el esfuerzo principal en la arquitectura del sistema, la lógica de sincronización en tiempo real, las pruebas de red local y la configuración del servidor de producción.
+
 > Audio de fondo y timer para el servicio de una iglesia, controlados desde el celular dentro de la red local. *(Web app for a church service: background music player and countdown timer, remote-controlled from phones on the local network.)*
 
 ![Pantalla de audio](docs/images/audio.png)
