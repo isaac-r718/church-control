@@ -1,0 +1,104 @@
+body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.field {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+select {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--text);
+  background: var(--neutral);
+  border: 0;
+  border-radius: 14px;
+}
+
+.dropzone {
+  margin-top: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  border: 2px dashed var(--card-border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropzone.over {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.dropzone p { margin: 0 0 8px; }
+
+/* ---------- Subidas ---------- */
+.uploads {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-item {
+  padding: 10px 0;
+  border-top: 1px solid var(--card-border);
+}
+
+.upload-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.upload-bar {
+  height: 8px;
+  margin: 8px 0 4px;
+  background: var(--neutral);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.upload-fill {
+  width: 0;
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.1s;
+}
+
+.upload-item.done .upload-fill { background: var(--ok); }
+.upload-item.error .upload-fill { background: var(--danger); }
+.upload-item.error .upload-msg { color: var(--danger); }
+
+/* ---------- Lista de canciones ---------- */
+h3 { margin-top: 20px; }
+.track-group:first-child h3 { margin-top: 0; }
+
+.track-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--card-border);
+}
+
+.track-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.btn-small {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 0.95rem;
+}
+
+.back { margin-top: 16px; }

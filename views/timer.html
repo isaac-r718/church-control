@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <link rel="stylesheet" href="/css/timer.css">
+</head>
+<body>
+  <p id="status" class="status">Conectando...</p>
+
+  <div id="overtime">+00:00</div>   
+  <div id="display">10:00:00</div>
+
+  <div class="row">
+    <button id="btn-toggle">Iniciar</button>
+    <button id="btn-reset">Reiniciar</button>
+  </div>
+
+  <div class="row">
+    <button class="adjust" data-seconds="-300">-5 min</button>
+    <button class="adjust" data-seconds="-60">-1 min</button>
+    <button class="adjust" data-seconds="60">+1 min</button>
+    <button class="adjust" data-seconds="300">+5 min</button>
+  </div>
+
+  <div class="row">
+    <button class="preset" data-minutes="5">5 min</button>
+    <button class="preset" data-minutes="10">10 min</button>
+    <button class="preset" data-minutes="15">15 min</button>
+    <button class="preset" data-minutes="20">20 min</button>
+    <button class="preset" data-minutes="30">30 min</button>
+    <button class="preset" data-minutes="45">45 min</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/time-format.js"></script> 
+  <script src="/js/timer.js"></script>
+</body>
+</html>

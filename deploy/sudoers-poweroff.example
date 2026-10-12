@@ -1,0 +1,1 @@
+iglesia ALL=(root) NOPASSWD: /usr/bin/systemctl poweroff

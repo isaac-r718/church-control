@@ -1,0 +1,77 @@
+/* ========== Solo lo propio de /mobile (lo común está en base.css) ========== */
+
+/* ---------- Música ---------- */
+.now-playing {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+#now-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.category {
+  min-height: 72px;
+  padding: 0 4px;
+  font-size: clamp(0.85rem, 4vw, 1.1rem);
+}
+
+#btn-toggle {
+  font-size: clamp(0.9rem, 4.2vw, 1.25rem);
+}
+
+.empty { grid-column: 1 / -1; }
+
+/* ---------- Timer ---------- */
+.timer-overtime {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--danger);
+  font-variant-numeric: tabular-nums;
+  visibility: hidden;
+}
+
+.timer-overtime.active { visibility: visible; }
+
+.timer-display {
+  font-size: clamp(40px, 17vw, 80px);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-display.finished { color: var(--danger); }
+
+#timer-state {
+  margin: 4px 0 16px;
+  text-align: center;
+}
+
+.button-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-add {
+  font-size: 1.15rem;
+  background: var(--add);
+}
+
+.btn-add:active { background: var(--add-active); }
+
+.btn-sub { font-size: 1.05rem; }

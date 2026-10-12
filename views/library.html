@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Música</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/library.css">
+</head>
+<body class="offline">
+
+  <header class="topbar">
+    <h1>Música</h1>
+    <div class="status">
+      <span class="dot"></span>
+      <span id="status-text">Conectando...</span>
+    </div>
+  </header>
+
+  <main id="app">
+
+    <section class="card">
+      <h2>Subir canciones</h2>
+
+      <label class="field" for="category">Categoría de destino</label>
+      <select id="category"></select>
+
+      <div id="dropzone" class="dropzone">
+        <p>Arrastra aquí los archivos de audio</p>
+        <p class="muted">o</p>
+        <button id="btn-pick" class="btn btn-primary">Elegir archivos</button>
+        <input id="file-input" type="file" multiple hidden
+               accept=".mp3,.m4a,.wav,.ogg,.opus,.aac,.flac,.webm,audio/*">
+      </div>
+
+      <ul id="uploads" class="uploads"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Canciones en el servidor</h2>
+      <div id="tracks"></div>
+    </section>
+
+    <a class="btn back" href="/audio">← Volver a Audio</a>
+
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/library.js"></script>
+</body>
+</html>

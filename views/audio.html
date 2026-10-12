@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Audio</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/audio.css">
+</head>
+<body class="offline">
+
+  <!-- Pantalla inicial: el navegador exige un clic antes de dejar sonar audio -->
+  <div id="start-overlay" class="overlay">
+    <h1>Audio del auditorio</h1>
+    <p class="muted">Presiona para activar el sonido en esta computadora</p>
+    <button id="btn-start" class="btn btn-primary">Iniciar audio</button>
+  </div>
+
+  <!-- Pantalla de apagado -->
+  <div id="shutdown-overlay" class="overlay" hidden>
+    <h1>Apagando el servidor…</h1>
+    <p class="muted">La música se detuvo. Puedes cerrar esta pestaña.</p>
+  </div>
+
+  <header class="topbar">
+    <h1>Audio</h1>
+    <div id="power" class="power power-inline" hidden></div>
+    <div class="status">
+      <span class="dot"></span>
+      <span id="status-text">Conectando...</span>
+    </div>
+  </header>
+
+  <main id="app">
+
+    <!-- ===== Reproductor ===== -->
+    <section class="card">
+      <h2>Reproductor</h2>
+
+      <div id="track-title" class="track-title">Sin música</div>
+      <div id="track-next" class="muted"></div>
+
+      <div class="seek-wrap">
+        <input id="seek" type="range" min="0" max="1000" value="0" disabled
+               aria-label="Posición de la canción">
+        <div class="times">
+          <span id="time-current">0:00</span>
+          <span id="time-total">0:00</span>
+        </div>
+      </div>
+
+      <div class="seek-row">
+        <button id="btn-back" class="btn" disabled>−10 s</button>
+        <button id="btn-repeat" class="btn btn-mode" title="Modo actual: al terminar, pasar a la siguiente">⏭</button>
+        <button id="btn-forward" class="btn" disabled>+10 s</button>
+      </div>
+
+      <div class="player-row">
+        <button id="btn-prev" class="btn btn-prev" aria-label="Pista anterior" disabled>«</button>
+        <button id="btn-toggle" class="btn btn-primary" disabled>▶ Reproducir</button>
+        <button id="btn-next" class="btn btn-next" aria-label="Siguiente pista" disabled>»</button>
+      </div>
+
+      <div class="volume">
+        <button id="btn-vol-down" class="btn btn-volume" aria-label="Bajar volumen">−</button>
+        <div class="volume-center">
+          <div id="volume-value">--%</div>
+          <div class="volume-bar"><div id="volume-fill"></div></div>
+        </div>
+        <button id="btn-vol-up" class="btn btn-volume" aria-label="Subir volumen">+</button>
+      </div>
+    </section>
+
+    <!-- ===== Biblioteca (dos filas de tres categorías) ===== -->
+    <section class="card library-card">
+      <h2>Biblioteca</h2>
+      <div id="library" class="library"></div>
+    </section>
+
+    <!-- ===== Sistema ===== -->
+    <section class="card">
+      <h2>Sistema</h2>
+      <div class="system-row">
+        <a class="btn" href="/library">🎵 Gestionar música</a>
+        <button id="btn-shutdown" class="btn btn-danger">⏻ Apagar servidor</button>
+      </div>
+      <p id="shutdown-msg" class="muted"></p>
+    </section>
+
+  </main>
+
+  <audio id="player"></audio>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/power.js"></script>
+  <script src="/js/audio.js"></script>
+</body>
+</html>

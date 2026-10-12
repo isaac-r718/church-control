@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 15vh; }
+    input, button { font-size: 1.5rem; padding: 0.6rem 1rem; margin: 0.4rem; }
+    #message { color: #c00; min-height: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>Ingresa el PIN</h1>
+  <form id="login-form">
+    <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8" autofocus>
+    <br>
+    <button type="submit">Entrar</button>
+  </form>
+  <p id="message"></p>
+
+  <script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+/* ========== Solo lo propio de /audio (lo común está en base.css) ========== */
+
+/* En pantallas anchas, centrar y limitar el ancho */
+body {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ---------- Pantallas completas (inicio y apagado) ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+  background: var(--bg);
+}
+
+.overlay[hidden] { display: none; }
+
+.overlay h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.overlay .btn {
+  min-height: 84px;
+  padding: 0 48px;
+  font-size: 1.5rem;
+}
+
+/* ---------- Título de la pista ---------- */
+.track-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* si el nombre es muy largo, corta con "..." */
+}
+
+#track-next {
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Slider de posición ---------- */
+.seek-wrap { margin-top: 20px; }
+
+#seek {
+  /* El relleno azul se calcula con la variable --progress, que actualiza el JavaScript */
+  --track: linear-gradient(to right, var(--primary) var(--progress, 0%), var(--neutral) var(--progress, 0%));
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+#seek:disabled { opacity: 0.4; cursor: default; }
+
+#seek::-webkit-slider-runnable-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--track);
+}
+
+#seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -8px; /* centra la perilla sobre la barra: (12 - 28) / 2 */
+  border: 0;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+#seek::-moz-range-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--track);
+}
+
+#seek::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.seek-row {
+  display: grid;
+  grid-template-columns: 1fr 96px 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-mode { font-size: 1.6rem; }
+
+#btn-repeat.active { background: var(--primary); }
+
+.seek-row .btn { min-height: 56px; }
+
+.player-row { margin-top: 10px; }
+
+/* ---------- Biblioteca ---------- */
+.library-card { min-height: 45vh; }
+
+.library {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 16px;
+  row-gap: 32px;
+}
+
+.lib-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.lib-col .category {
+  min-height: 84px;
+  font-size: 1.3rem;
+}
+
+.lib-summary { text-align: center; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--neutral);
+  color: var(--muted);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El orden de estas tres reglas importa: la última que aplique gana */
+.chip.played { opacity: 0.45; }
+
+.chip.next {
+  opacity: 1;
+  color: var(--text);
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.chip.current {
+  opacity: 1;
+  background: var(--primary);
+  color: #fff;
+}
+
+.library .empty { grid-column: 1 / -1; }
+
+/* ---------- Barra superior: título | batería (centro) | estado ---------- */
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.topbar h1 { grid-column: 1; }
+.power-inline { grid-column: 2; }
+.topbar .status { grid-column: 3; justify-self: end; }
+
+.power-inline {
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ---------- Sistema ---------- */
+.system-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.system-row .btn { min-height: 72px; }
+
+#shutdown-msg {
+  min-height: 1.2em;
+  margin: 10px 0 0;
+}

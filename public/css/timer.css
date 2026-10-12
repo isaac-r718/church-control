@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+}
+
+#display {
+  font-size: 20vw;               /* antes 24vw */
+  font-weight: bold;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* NUEVO */
+#overtime {
+  font-size: 9vw;
+  font-weight: bold;
+  line-height: 1;
+  color: #ff3b30;
+  font-variant-numeric: tabular-nums;
+  visibility: hidden; /* oculto pero ocupando espacio, para que nada se mueva al aparecer */
+}
+
+#overtime.active {
+  visibility: visible;
+}
+
+#display.finished {
+  color: #ff3b30;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5vw;
+}
+
+button {
+  font-size: clamp(16px, 2.2vw, 36px);
+  padding: 1.5vh 2.5vw;
+  background: #222;
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+#btn-toggle {
+  background: #1c7c3a;
+  border-color: #2fb457;
+}
+
+.status {
+  position: fixed;
+  top: 1vh;
+  right: 1vw;
+  margin: 0;
+  font-size: clamp(12px, 1.2vw, 20px);
+  color: #888;
+}
+
+/* Si se pierde la conexión, atenuar los números para que nadie confíe en un dato viejo */
+body.offline #display {
+  opacity: 0.3;
+}

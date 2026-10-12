@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Control</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body class="offline">
+
+  <header class="topbar">
+    <h1>Control</h1>
+    <div class="status">
+      <span class="dot"></span>
+      <span id="status-text">Conectando...</span>
+    </div>
+  </header>
+
+  <main id="app">
+
+    <!-- ===== Música ===== -->
+    <section class="card">
+      <h2>Música</h2>
+
+      <div class="now-playing">
+        <span id="now-label">Sin música</span>
+        <span id="play-state" class="muted"></span>
+      </div>
+
+      <div class="player-row">
+        <button id="btn-prev" class="btn btn-prev" aria-label="Pista anterior" disabled>«</button>
+        <button id="btn-toggle" class="btn btn-primary" disabled>▶ Reproducir</button>
+        <button id="btn-next" class="btn btn-next" aria-label="Siguiente pista" disabled>»</button>
+      </div>
+
+      <div class="volume">
+        <button id="btn-vol-down" class="btn btn-volume" aria-label="Bajar volumen">−</button>
+        <div class="volume-center">
+          <div id="volume-value">--%</div>
+          <div class="volume-bar"><div id="volume-fill"></div></div>
+        </div>
+        <button id="btn-vol-up" class="btn btn-volume" aria-label="Subir volumen">+</button>
+      </div>
+
+      <h3>Categorías</h3>
+      <div id="categories" class="categories"></div>
+    </section>
+
+    <!-- ===== Timer ===== -->
+    <section class="card">
+      <h2>Timer</h2>
+
+      <div id="timer-overtime" class="timer-overtime">+00:00</div>
+      <div id="timer-display" class="timer-display">--:--:--</div>
+      <div id="timer-state" class="muted">Detenido</div>
+
+      <div class="button-row">
+        <button class="btn btn-add timer-adjust" data-seconds="60">+1 min</button>
+        <button class="btn btn-add timer-adjust" data-seconds="300">+5 min</button>
+        <button class="btn btn-add timer-adjust" data-seconds="600">+10 min</button>
+      </div>
+      <div class="button-row">
+        <button class="btn btn-sub timer-adjust" data-seconds="-60">−1 min</button>
+        <button class="btn btn-sub timer-adjust" data-seconds="-300">−5 min</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/time-format.js"></script>
+  <script src="/js/mobile.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+
+# Configuración local (contiene el PIN)
+config.json
+
+# Música: pesada y con derechos de autor. Se sube desde /library
+music/*
+!music/.gitkeep
+
+# Archivos temporales de subida
+*.part
+
+# Registros, variables de entorno y archivos del sistema
+*.log
+.env
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
