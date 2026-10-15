@@ -26,7 +26,7 @@ const repeatBtn = document.getElementById('btn-repeat');
 
 // ----- Estado -----
 let library = {};                                       // { categoría: [archivos] }
-let state = { category: null, playing: false, volume: 0.5, skipCount: 0, skipDirection: 1, repeatOne: false };
+let state = { category: null, playing: false, volume: 0.5, skipCount: 0, skipDirection: 1, playMode: 'continuous' };
 let currentCategory = null;   // categoría cargada en el reproductor
 let playlist = [];            // pistas de esa categoría (y solo de esa categoría)
 let trackIndex = 0;           // posición actual dentro de la lista
@@ -52,9 +52,21 @@ function formatClock(seconds) {
 function loadTrack() {
   const file = playlist[trackIndex];
   player.src = `/music/${encodeURIComponent(currentCategory)}/${encodeURIComponent(file)}`;
-  player.loop = state.repeatOne || playlist.length === 1; // bucle si se eligió, o si hay una sola pista
+  player.loop = state.playMode === 'repeat' || playlist.length === 1;
   updateNowPlaying();
   updateLibrary();
+}
+
+function changeTrack(direction) {
+  if (playlist.length < 2) return;
+
+  if (state.playMode === 'random') {
+    const randomIndex = Math.floor(Math.random() * (playlist.length - 1));
+    trackIndex = randomIndex >= trackIndex ? randomIndex + 1 : randomIndex;
+  } else {
+    trackIndex = (trackIndex + direction + playlist.length) % playlist.length;
+  }
+  loadTrack();
 }
 
 function seekBy(seconds) {
@@ -65,8 +77,7 @@ function seekBy(seconds) {
 
 // Al terminar una pista, pasar a la siguiente DE LA MISMA CATEGORÍA
 player.addEventListener('ended', () => {
-  trackIndex = (trackIndex + 1) % playlist.length;
-  loadTrack();
+  changeTrack(1);
   if (state.playing) player.play().catch((err) => console.error('No se pudo reproducir:', err));
 });
 
@@ -79,21 +90,20 @@ function updateNowPlaying() {
 
   if (!hasTrack) {
     titleEl.textContent = 'Sin música';
-
-  if (state.repeatOne || playlist.length === 1) {
-    nextEl.textContent = 'Esta pista se repite en bucle';
-  } else {
-    nextEl.textContent = 'Sigue: ' + trackName(playlist[(trackIndex + 1) % playlist.length]);
-  }
-
+    nextEl.textContent = '';
     return;
   }
 
   titleEl.textContent = trackName(playlist[trackIndex]);
-  nextEl.textContent =
-    playlist.length > 1
-      ? 'Sigue: ' + trackName(playlist[(trackIndex + 1) % playlist.length])
-      : 'Una sola pista: se repite en loop';
+  if (playlist.length === 1) {
+    nextEl.textContent = 'Una sola pista: se repite en loop';
+  } else if (state.playMode === 'repeat') {
+    nextEl.textContent = 'Esta pista se repite en bucle';
+  } else if (state.playMode === 'random') {
+    nextEl.textContent = 'La siguiente pista será aleatoria';
+  } else {
+    nextEl.textContent = 'Sigue: ' + trackName(playlist[(trackIndex + 1) % playlist.length]);
+  }
 }
 
 function setProgressStyle(ratio) {
@@ -186,12 +196,14 @@ function updateLibrary() {
 
     refs.chips.forEach((chip, index) => {
       chip.classList.toggle('current', loaded && index === trackIndex);
-      chip.classList.toggle('played', loaded && index < trackIndex);
-      chip.classList.toggle('next', loaded && !state.repeatOne && total > 1 && index === (trackIndex + 1) % total);
+      chip.classList.toggle('played', loaded && state.playMode !== 'random' && index < trackIndex);
+      chip.classList.toggle('next', loaded && state.playMode === 'continuous' && total > 1 && index === (trackIndex + 1) % total);
     });
 
     refs.summary.textContent = loaded
-      ? `Pista ${trackIndex + 1} de ${total} · quedan ${total - trackIndex - 1}`
+      ? state.playMode === 'random'
+        ? `Pista ${trackIndex + 1} de ${total} · modo aleatorio`
+        : `Pista ${trackIndex + 1} de ${total} · quedan ${total - trackIndex - 1}`
       : `${total} ${total === 1 ? 'pista' : 'pistas'}`;
   }
 }
@@ -208,12 +220,15 @@ function applyState() {
   nextBtn.disabled = !state.category;
   prevBtn.disabled = !state.category;
 
-  // Botón de modo: ⏭ = al terminar pasa a la siguiente; 🔂 = la pista se repite en bucle
-  repeatBtn.textContent = state.repeatOne ? '🔂' : '⏭';
-  repeatBtn.classList.toggle('active', state.repeatOne);
-  repeatBtn.title = state.repeatOne
-    ? 'Modo actual: repetir esta pista (clic para pasar a la siguiente al terminar)'
-    : 'Modo actual: al terminar, pasar a la siguiente (clic para repetir esta pista)';
+  const modeLabels = {
+    continuous: { icon: '⏭', title: 'Modo actual: reproducción continua (clic para repetir esta pista)' },
+    repeat: { icon: '🔂', title: 'Modo actual: repetir esta pista (clic para reproducción aleatoria)' },
+    random: { icon: '🔀', title: 'Modo actual: reproducción aleatoria (clic para reproducción continua)' },
+  };
+  const mode = modeLabels[state.playMode] || modeLabels.continuous;
+  repeatBtn.textContent = mode.icon;
+  repeatBtn.classList.toggle('active', state.playMode !== 'continuous');
+  repeatBtn.title = mode.title;
 
   if (unlocked && state.category) {
     if (state.category !== currentCategory) {
@@ -227,14 +242,12 @@ function applyState() {
       // « o »: cambiar de pista dentro de la misma categoría, dando la vuelta en los extremos
       lastSkipCount = state.skipCount;
       if (playlist.length > 1) {
-        // Se suma playlist.length antes del % porque en JavaScript (-1) % 5 da -1, no 4
-        trackIndex = (trackIndex + state.skipDirection + playlist.length) % playlist.length;
-        loadTrack();
+        changeTrack(state.skipDirection);
       }
     }
 
     // El modo bucle puede cambiar con la pista ya sonando
-    player.loop = state.repeatOne || playlist.length === 1;
+    player.loop = state.playMode === 'repeat' || playlist.length === 1;
 
     if (playlist.length > 0) {
       if (state.playing) {
@@ -290,7 +303,7 @@ socket.on('audio:state', (newState) => {
 toggleBtn.addEventListener('click', () => socket.emit('audio:toggle'));
 nextBtn.addEventListener('click', () => socket.emit('audio:next'));
 prevBtn.addEventListener('click', () => socket.emit('audio:prev'));
-repeatBtn.addEventListener('click', () => socket.emit('audio:toggleRepeat'));
+repeatBtn.addEventListener('click', () => socket.emit('audio:toggleMode'));
 
 document.getElementById('btn-vol-down').addEventListener('click', () => {
   socket.emit('audio:volumeDelta', -0.05);

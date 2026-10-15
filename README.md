@@ -16,7 +16,7 @@ Una herramienta que nació de una necesidad real: durante el servicio, una sola 
 
 **Audio** (`/audio`, `/mobile`)
 - Música organizada por categorías: cada carpeta de `music/` es una categoría (Piano, Pad, Atmósfera, Alabanzas, Avisos, Niños).
-- Reproducción en bucle de la lista, o repetición de una sola pista; botones de pista anterior y siguiente que nunca salen de la categoría activa.
+- Modos de reproducción continua, repetición de una sola pista y reproducción aleatoria; botones de pista anterior y siguiente que nunca salen de la categoría activa.
 - Barra de posición con salto de ±10 s, volumen de 5 % en 5 % y casillas numeradas que muestran qué pista suena, cuál sigue y cuántas quedan.
 
 **Timer** (`/timer`, `/mobile`)
@@ -118,7 +118,7 @@ Todos los eventos del cliente al servidor exigen una sesión válida.
 
 | Cliente → Servidor | Efecto |
 |---|---|
-| `audio:setCategory`, `audio:toggle`, `audio:next`, `audio:prev`, `audio:toggleRepeat`, `audio:volumeDelta` | Controlan la reproducción |
+| `audio:setCategory`, `audio:toggle`, `audio:next`, `audio:prev`, `audio:toggleMode`, `audio:volumeDelta` | Controlan la reproducción |
 | `timer:set`, `timer:start`, `timer:pause`, `timer:reset`, `timer:adjust` | Controlan el timer |
 | `system:shutdown` | Apaga el servidor (solo Linux, con permiso `sudoers`) |
 

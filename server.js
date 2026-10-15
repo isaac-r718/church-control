@@ -279,7 +279,7 @@ const audioState = {
   volume: 0.5,
   skipCount: 0,      // aumenta con cada « o »: cada aumento significa "cambia de pista"
   skipDirection: 1,  // 1 = siguiente (»), -1 = anterior («)
-  repeatOne: false,  // true = la pista se repite en bucle; false = al terminar pasa a la siguiente
+  playMode: 'continuous', // continuous, repeat o random
 };
 
 let shuttingDown = false;
@@ -415,10 +415,14 @@ io.on('connection', (socket) => {
     io.emit('audio:state', audioState);
   });
 
-  socket.on('audio:toggleRepeat', () => {
-    audioState.repeatOne = !audioState.repeatOne;
+  function toggleAudioMode() {
+    const modes = ['continuous', 'repeat', 'random'];
+    audioState.playMode = modes[(modes.indexOf(audioState.playMode) + 1) % modes.length];
     io.emit('audio:state', audioState);
-  });
+  }
+
+  socket.on('audio:toggleMode', toggleAudioMode);
+  socket.on('audio:toggleRepeat', toggleAudioMode); // Compatibilidad con clientes anteriores
 
   socket.on('audio:volumeDelta', (delta) => {
     if (typeof delta !== 'number') return;
